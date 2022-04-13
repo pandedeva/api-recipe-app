@@ -3,9 +3,11 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import BeatLoader from "react-spinners/BeatLoader";
 
 const Searched = () => {
   const [searchedRecipes, setSearchedRecipes] = useState([]);
+  const [loading, setLoading] = useState(true);
   let params = useParams();
 
   const getSearched = async (name) => {
@@ -14,6 +16,7 @@ const Searched = () => {
 
     // results untuk menampilkan masakannya
     // console.log(recipes.results);
+    setLoading(false);
     return recipes.results;
   };
 
@@ -32,23 +35,23 @@ const Searched = () => {
 
   return (
     <>
-      {searchedRecipes.length > 0 ? (
-        <Grid animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
-          {searchedRecipes.map((item) => {
-            return (
-              <Card key={item.id}>
-                <Link to={"/recipe/" + item.id}>
-                  <img src={item.image} alt={item.title} />
-                  <h4>{item.title}</h4>
-                </Link>
-              </Card>
-            );
-          })}
-        </Grid>
+      {loading ? (
+        <BeatLoader color={"#000000"} loading={loading} size={15} />
       ) : (
-        <p>
-          <i>Tidak ada Recipe</i>
-        </p>
+        !loading && (
+          <Grid animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+            {searchedRecipes.map((item) => {
+              return (
+                <Card key={item.id}>
+                  <Link to={"/recipe/" + item.id}>
+                    <img src={item.image} alt={item.title} />
+                    <h4>{item.title}</h4>
+                  </Link>
+                </Card>
+              );
+            })}
+          </Grid>
+        )
       )}
     </>
   );

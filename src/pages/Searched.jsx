@@ -36,21 +36,31 @@ const Searched = () => {
   return (
     <>
       {loading ? (
-        <BeatLoader color={"#000000"} loading={loading} size={15} />
+        <LoadingIcon>
+          <BeatLoader color={"#000000"} loading={loading} size={15} />
+        </LoadingIcon>
       ) : (
         !loading && (
-          <Grid animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
-            {searchedRecipes.map((item) => {
-              return (
-                <Card key={item.id}>
-                  <Link to={"/recipe/" + item.id}>
-                    <img src={item.image} alt={item.title} />
-                    <h4>{item.title}</h4>
-                  </Link>
-                </Card>
-              );
-            })}
-          </Grid>
+          <section>
+            {searchedRecipes.length > 0 ? (
+              <Grid animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+                {searchedRecipes.map((item) => {
+                  return (
+                    <Card key={item.id}>
+                      <Link to={"/recipe/" + item.id}>
+                        <img src={item.image} alt={item.title} />
+                        <h4>{item.title}</h4>
+                      </Link>
+                    </Card>
+                  );
+                })}
+              </Grid>
+            ) : (
+              <ErrorText>
+                <i>No Menu</i>
+              </ErrorText>
+            )}
+          </section>
         )
       )}
     </>
@@ -76,6 +86,20 @@ const Card = styled.div`
     text-align: center;
     padding: 1rem;
   }
+`;
+
+const LoadingIcon = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+  height: 100vh;
+`;
+
+const ErrorText = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+  font-size: 1.2rem;
 `;
 
 export default Searched;

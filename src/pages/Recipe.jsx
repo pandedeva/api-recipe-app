@@ -2,15 +2,19 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
+import BeatLoader from "react-spinners/BeatLoader";
 
 function Recipe() {
   const [details, setDetails] = useState({});
   const [activeTab, setActiveTab] = useState("instructions");
+  const [loading, setLoading] = useState(true);
   let params = useParams();
 
   const fetchDetails = async () => {
     const data = await fetch(`https://api.spoonacular.com/recipes/${params.name}/information?apiKey=${process.env.REACT_APP_API_KEY}`);
     const detailData = await data.json();
+
+    setLoading(false);
     setDetails(detailData);
   };
 
@@ -19,32 +23,42 @@ function Recipe() {
   }, [params.name]);
 
   return (
-    <DetailWrapper animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 1.5 }}>
-      <div>
-        <h2>{details.title}</h2>
-        <img src={details.image} alt={details.title} />
-      </div>
-      <Info>
-        <Button className={activeTab === "instructions" ? "active" : ""} onClick={() => setActiveTab("instructions")}>
-          Instructions
-        </Button>
-        <Button className={activeTab === "ingredients" ? "active" : ""} onClick={() => setActiveTab("ingredients")}>
-          Ingredients
-        </Button>
-        {activeTab === "instructions" ? (
-          <div>
-            <h3 dangerouslySetInnerHTML={{ __html: details.summary }}></h3>
-            <h3 dangerouslySetInnerHTML={{ __html: details.instructions }}></h3>
-          </div>
-        ) : (
-          <ul>
-            {details.extendedIngredients.map((ingredient) => {
-              return <li key={ingredient.id}>{ingredient.original}</li>;
-            })}
-          </ul>
-        )}
-      </Info>
-    </DetailWrapper>
+    <>
+      {loading ? (
+        <LoadingIcon>
+          <BeatLoader color={"#000000"} loading={loading} size={15} />
+        </LoadingIcon>
+      ) : (
+        !loading && (
+          <DetailWrapper animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 1.5 }}>
+            <div>
+              <h2>{details.title}</h2>
+              <img src={details.image} alt={details.title} />
+            </div>
+            <Info>
+              <Button className={activeTab === "instructions" ? "active" : ""} onClick={() => setActiveTab("instructions")}>
+                Instructions
+              </Button>
+              <Button className={activeTab === "ingredients" ? "active" : ""} onClick={() => setActiveTab("ingredients")}>
+                Ingredients
+              </Button>
+              {activeTab === "instructions" ? (
+                <div>
+                  <h3 dangerouslySetInnerHTML={{ __html: details.summary }}></h3>
+                  <h3 dangerouslySetInnerHTML={{ __html: details.instructions }}></h3>
+                </div>
+              ) : (
+                <ul>
+                  {details.extendedIngredients.map((ingredient) => {
+                    return <li key={ingredient.id}>{ingredient.original}</li>;
+                  })}
+                </ul>
+              )}
+            </Info>
+          </DetailWrapper>
+        )
+      )}
+    </>
   );
 }
 
@@ -86,6 +100,13 @@ const Button = styled.button`
 
 const Info = styled.div`
   margin-left: 5rem;
+`;
+
+const LoadingIcon = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+  height: 100vh;
 `;
 
 export default Recipe;

@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { Link, useParams } from "react-router-dom";
+import BeatLoader from "react-spinners/BeatLoader";
 
 function Cuisine() {
   const [cuisine, setCuisine] = useState([]);
+  const [loading, setLoading] = useState(true);
   let params = useParams();
 
   const getCuisine = async (name) => {
@@ -13,6 +15,7 @@ function Cuisine() {
 
     // results untuk menampilkan masakannya
     // console.log(recipes.results);
+    setLoading(false);
     return recipes.results;
   };
 
@@ -29,18 +32,28 @@ function Cuisine() {
   }, [params.type]);
 
   return (
-    <Grid animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 1.5 }}>
-      {cuisine.map((item) => {
-        return (
-          <Card key={item.id}>
-            <Link to={"/recipe/" + item.id}>
-              <img src={item.image} alt={item.title} />
-              <h4>{item.title}</h4>
-            </Link>
-          </Card>
-        );
-      })}
-    </Grid>
+    <>
+      {loading ? (
+        <LoadingIcon>
+          <BeatLoader color={"#000000"} loading={loading} size={15} />
+        </LoadingIcon>
+      ) : (
+        !loading && (
+          <Grid animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 1.5 }}>
+            {cuisine.map((item) => {
+              return (
+                <Card key={item.id}>
+                  <Link to={"/recipe/" + item.id}>
+                    <img src={item.image} alt={item.title} />
+                    <h4>{item.title}</h4>
+                  </Link>
+                </Card>
+              );
+            })}
+          </Grid>
+        )
+      )}
+    </>
   );
 }
 
@@ -63,6 +76,13 @@ const Card = styled.div`
     text-align: center;
     padding: 1rem;
   }
+`;
+
+const LoadingIcon = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+  height: 100vh;
 `;
 
 export default Cuisine;

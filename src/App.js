@@ -1,6 +1,8 @@
 import Category from "./components/Category";
 import Search from "./components/Search";
 import Pages from "./pages/Pages";
+import Footer from "./pages/Footer";
+
 import { BrowserRouter } from "react-router-dom";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -9,20 +11,27 @@ import { GiKnifeFork } from "react-icons/gi";
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Nav>
-          <Logo to={"/"}>
-            <GiKnifeFork />
-            Deliciousss
-          </Logo>
-        </Nav>
-        <Search />
-        <Category />
-        <Pages />
-      </BrowserRouter>
+      <Container>
+        <BrowserRouter>
+          <Nav>
+            <Logo to={"/"}>
+              <GiKnifeFork />
+              Deliciousss
+            </Logo>
+          </Nav>
+          <Search />
+          <Category />
+          <Pages />
+        </BrowserRouter>
+      </Container>
+      <Footer />
     </div>
   );
 }
+
+const Container = styled.div`
+  margin: 0% 10%;
+`;
 
 const Nav = styled.div`
   padding: 3rem 0;

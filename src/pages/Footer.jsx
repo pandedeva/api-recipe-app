@@ -1,7 +1,6 @@
 import { GiKnifeFork } from "react-icons/gi";
 import { AiFillFacebook, AiOutlineTwitter, AiOutlineInstagram, AiFillGithub } from "react-icons/ai";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 function Footer() {
   return (

@@ -1,6 +1,7 @@
 import { GiKnifeFork } from "react-icons/gi";
 import { AiFillFacebook, AiOutlineTwitter, AiOutlineInstagram, AiFillGithub } from "react-icons/ai";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
@@ -11,18 +12,18 @@ function Footer() {
           Deliciousss
         </Logo>
         <Wrapper>
-          <div>
+          <a href=" https://www.facebook.com/deva.vanthey" target="_blank" rel="noreferrer">
             <AiFillFacebook style={{ width: 25, height: 25, objectFit: "contain" }} />
-          </div>
-          <div>
+          </a>
+          <a href="https://twitter.com/devskke" target="_blank" rel="noreferrer">
             <AiOutlineTwitter style={{ width: 25, height: 25, objectFit: "contain" }} />
-          </div>
-          <div>
+          </a>
+          <a href="https://www.instagram.com/devvstayalive" target="_blank" rel="noreferrer">
             <AiOutlineInstagram style={{ width: 25, height: 25, objectFit: "contain" }} />
-          </div>
-          <div>
+          </a>
+          <a href="https://github.com/pandedeva" target="_blank" rel="noreferrer">
             <AiFillGithub style={{ width: 25, height: 25, objectFit: "contain" }} />
-          </div>
+          </a>
         </Wrapper>
       </IconsWrapper>
       <CopyRight>
@@ -36,6 +37,7 @@ const Foot = styled.footer`
   display: grid;
   grid-row-start: 2;
   grid-row-end: 3;
+  margin-top: 8.5rem;
 `;
 
 const IconsWrapper = styled.div`
@@ -65,7 +67,7 @@ const Icon = styled(GiKnifeFork)`
 const Wrapper = styled.div`
   display: flex;
 
-  div {
+  a {
     background-color: white;
     padding: 5px;
     border-radius: 40px;

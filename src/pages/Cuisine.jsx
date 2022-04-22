@@ -20,6 +20,7 @@ function Cuisine() {
   };
 
   useEffect(() => {
+    document.title = `Recipe App | ${params.type}`;
     let isMounted = true;
     // params.type untuk mengambil nama pada menu
     getCuisine(params.type).then((recipes) => {

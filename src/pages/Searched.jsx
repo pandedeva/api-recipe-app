@@ -21,6 +21,7 @@ const Searched = () => {
   };
 
   useEffect(() => {
+    document.title = `Search | ${params.search}`;
     let isMounted = true;
     // params.search parameter yang diberi pada Pages.jsx
     // params.search untuk mengambil nama pada menu
